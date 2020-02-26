@@ -1,28 +1,31 @@
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
-public class Main_4179 {
+public class Main_4179_2 {
 
 	static int R, C;
 	static char[][] map;
+	static int[][] visitedJ;
 	static boolean[][] visited;
-	static boolean[][] visitedJ;
-	static char[][] initMap;
 
 	static int minute;
-	static boolean finish;
+
+	static int Sy, Sx;
 
 	static int[] dy = { 0, 1, 0, -1 };
 	static int[] dx = { 1, 0, -1, 0 };
 
-	static LinkedList<Integer> list = new LinkedList<>();
-	static LinkedList<Integer> unreached = new LinkedList<>();
+	static Queue<int[]> que;
+	static LinkedList<Integer> list;
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		R = sc.nextInt();
 		C = sc.nextInt();
 		map = new char[R + 2][C + 2];
+		visitedJ = new int[R + 2][C + 2];
 
 		for (int i = 0; i < R; i++) {
 			char[] c = sc.next().toCharArray();
@@ -35,35 +38,37 @@ public class Main_4179 {
 			for (int j = 0; j < C + 2; j++) {
 				if (i == 0 || i == R + 1) {
 					map[i][j] = 'O';
+					continue;
 				}
 
 				if (j == 0 || j == C + 1) {
 					map[i][j] = 'O';
+					continue;
+				}
+
+				if (map[i][j] == 'J') {
+					Sy = i;
+					Sx = j;
+					visitedJ[i][j] = 1;
+					continue;
 				}
 
 			}
 		}
 
-		System.out.println(minute);
-		printMap(map);
+		que = new LinkedList<int[]>();
+		list = new LinkedList<>();
+		que.offer(new int[] { Sy, Sx });
 
-		for (minute = 1; minute <= 10; minute++) {
+//		printMap(visitedJ);
+//		printMap(map);
 
+		while (!que.isEmpty()) {
 			visited = new boolean[R + 2][C + 2];
-			visitedJ = new boolean[R + 2][C + 2];
 
-			for (int i = 1; i < R + 1; i++) {
-				for (int j = 1; j < C + 1; j++) {
+			int[] temp = que.poll();
 
-					if (map[i][j] == 'J' && !visitedJ[i][j]) {
-						visitedJ[i][j] = true;
-						move(i, j);
-					}
-				}
-			}
-
-			if (finish) {
-
+			if (map[temp[0]][temp[1]] == 'O') {
 				break;
 			}
 
@@ -77,16 +82,22 @@ public class Main_4179 {
 				}
 			}
 
-			System.out.println(minute);
-			printMap(map);
+			move(temp[0], temp[1]);
+
+//			printMap(visitedJ);
+//			printMap(map);
 
 		}
 
-		if (minute == 11) {
+		Collections.sort(list);
+//		for (int k = 0; k < list.size(); k++) {
+//			System.out.print(list.get(k) + " ");
+//		}
+//		System.out.println();
+		if (list.isEmpty()) {
 			System.out.println("IMPOSSIBLE");
-		} else {
-			System.out.println(minute);
-		}
+		} else
+			System.out.println(list.get(0));
 
 	}
 
@@ -101,19 +112,19 @@ public class Main_4179 {
 
 		for (int i = 0; i < 4; i++) {
 			if (safe(y + dy[i], x + dx[i]) && map[y + dy[i]][x + dx[i]] != '#' && map[y + dy[i]][x + dx[i]] != 'F'
-					&& !visitedJ[y + dy[i]][x + dx[i]]) {
+					&& visitedJ[y + dy[i]][x + dx[i]] == 0) {
 
 				if (map[y + dy[i]][x + dx[i]] == 'O') {
-					finish = true;
-
-//					System.out.println("종료 " + minute);
+					list.add(visitedJ[y][x]);
 					return;
 				}
+//
+//				map[y][x] = '.';
+//				map[y + dy[i]][x + dx[i]] = 'J';
 
-				map[y][x] = '.';
-				map[y + dy[i]][x + dx[i]] = 'J';
-				visitedJ[y + dy[i]][x + dx[i]] = true;
-				return;
+				visitedJ[y + dy[i]][x + dx[i]] = visitedJ[y][x] + 1;
+				que.offer(new int[] { y + dy[i], x + dx[i] });
+				System.out.println((y + dy[i]) + " " + (x + dx[i]));
 			}
 		}
 	}
@@ -145,9 +156,9 @@ public class Main_4179 {
 		System.out.println("===========================");
 	}
 
-	public static void printMap(boolean[][] m) {
-		for (int i = 0; i < R; i++) {
-			for (int j = 0; j < C; j++) {
+	public static void printMap(int[][] m) {
+		for (int i = 0; i <= R + 1; i++) {
+			for (int j = 0; j <= C + 1; j++) {
 				System.out.print(m[i][j] + " ");
 			}
 			System.out.println();
@@ -155,4 +166,5 @@ public class Main_4179 {
 		}
 		System.out.println("===========================");
 	}
+
 }
