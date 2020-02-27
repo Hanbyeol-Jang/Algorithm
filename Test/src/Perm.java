@@ -21,7 +21,7 @@ public class Perm {
 			if ((flag & 1 << i) == 0) {
 				num[count] = i + 1;
 				perm(n, r, flag | 1 << i, count + 1);
-			}
+			}	
 
 		}
 	}
