@@ -29,4 +29,10 @@ public class Solution_1952 {
 
 		}
 	}
+
+	public static void combi(int n, int r, int start, int count) {
+		if (count == r) {
+			return;
+		}
+	}
 }

@@ -17,6 +17,7 @@ public class CombiTest {
 			return;
 		}
 
+		// i: 0부터 -> 중복 허용
 		for (int i = start; i < n; i++) {
 			num[count] = i + 1;
 			combi(n, r, i + 1, count + 1);
