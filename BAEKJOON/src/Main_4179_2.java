@@ -63,6 +63,7 @@ public class Main_4179_2 {
 //		printMap(visitedJ);
 //		printMap(map);
 
+
 		while (!que.isEmpty()) {
 			visited = new boolean[R + 2][C + 2];
 
@@ -124,7 +125,7 @@ public class Main_4179_2 {
 
 				visitedJ[y + dy[i]][x + dx[i]] = visitedJ[y][x] + 1;
 				que.offer(new int[] { y + dy[i], x + dx[i] });
-				System.out.println((y + dy[i]) + " " + (x + dx[i]));
+//				System.out.println((y + dy[i]) + " " + (x + dx[i]));
 			}
 		}
 	}
