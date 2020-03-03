@@ -55,7 +55,7 @@ public class Solution_7699 {
 
 			if (safe(y + dy[i], x + dx[i]) && !visited[map[y + dy[i]][x + dx[i]]]) {
 				visited[map[y + dy[i]][x + dx[i]]] = true;
-				dfs(y + dy[i], x + dx[i], cnt+1);
+				dfs(y + dy[i], x + dx[i], cnt + 1);
 				visited[map[y + dy[i]][x + dx[i]]] = false;
 			}
 		}
