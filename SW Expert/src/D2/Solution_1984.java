@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Solution_1984 {
-
+	
 	static int TestCase;
 	static int[] num;
 
