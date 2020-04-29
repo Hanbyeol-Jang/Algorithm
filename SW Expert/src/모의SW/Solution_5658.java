@@ -11,7 +11,6 @@ public class Solution_5658 {
 	static StringBuilder sb;
 	static char[][] map;
 	static int sum;
-	static int max;
 	static LinkedList<Integer> list;
 
 	public static void main(String[] args) {
@@ -27,7 +26,6 @@ public class Solution_5658 {
 			int len4 = len / 4;
 			map = new char[4][len];
 			sum = 0;
-			max = Integer.MIN_VALUE;
 			list = new LinkedList<>();
 
 			for (int i = 0; i < len; i++) {
@@ -53,7 +51,7 @@ public class Solution_5658 {
 		}
 	}
 
-	public static void calc(int l) {
+	public static void calc(int l) { 
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < l; j++) {
 
