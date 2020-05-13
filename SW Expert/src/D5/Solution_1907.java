@@ -1,5 +1,7 @@
 package D5;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class Solution_1907 {
@@ -7,10 +9,22 @@ public class Solution_1907 {
 	static int TestCase;
 	static int H, W;
 	static int[][] map;
-	static int[][] checked;
+	static int cnt;
+	static int[][] cntMap;
 
-	static int[] dy = { 0, 1, 1, 1, 0, -1, -1, -1 };
-	static int[] dx = { 1, 1, 0, -1, -1, -1, 0, 1 };
+	static int[] dy = { -1, -1, -1, 0, 0, 1, 1, 1 };
+	static int[] dx = { -1, 0, 1, -1, 1, -1, 0, 1 };
+
+	static Queue<Node> queue = new LinkedList<>();
+
+	static class Node {
+		int r, c;
+
+		Node(int r, int c) {
+			this.r = r;
+			this.c = c;
+		}
+	}
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -19,93 +33,117 @@ public class Solution_1907 {
 		for (int T = 1; T <= TestCase; T++) {
 			H = sc.nextInt();
 			W = sc.nextInt();
+
 			map = new int[H][W];
 
 			for (int i = 0; i < H; i++) {
 				String s = sc.next();
 				for (int j = 0; j < W; j++) {
-					char c = s.charAt(j);
-					if (c != '.') {
-						map[i][j] = c - '0';
+					char ch = s.charAt(j);
+
+					if (ch != '.') {
+						map[i][j] = ch - '0';
+					} else {
+						map[i][j] = 0;
 					}
 				}
 			}
 
-			int wave = 0;
+			cntMap = new int[H][W];
 
-			while (true) {
-				boolean destroy = false;
-				checked = new int[H][W];
+			for (int i = 0; i < H; i++) {
+				for (int j = 0; j < W; j++) {
+					if (map[i][j] == 0)
+						continue;
+
+					cnt = 0;
+					cntSand(i, j);
+					cntMap[i][j] = cnt;
+				}
+			}
+
+			destroy();
+
+			int wave = 0;
+			while (!queue.isEmpty()) {
+				wave++;
+
+				int size = queue.size();
+				for (int s = 0; s < size; s++) {
+					Node node = queue.poll();
+					for (int i = 0; i < 8; i++) {
+						int ny = node.r + dy[i];
+						int nx = node.c + dx[i];
+
+						if (!checked(ny, nx))
+							continue;
+
+						if (map[ny][nx] != 0) {
+							cntMap[ny][nx]--;
+						}
+					}
+				}
 
 				for (int i = 0; i < H; i++) {
 					for (int j = 0; j < W; j++) {
 						if (map[i][j] == 0)
 							continue;
 
-						checkSand(i, j);
+						cnt = 0;
+						cntSand(i, j);
+						cntMap[i][j] = cnt;
 					}
 				}
+				destroy();
 
-				for (int i = 0; i < H; i++) {
-					for (int j = 0; j < W; j++) {
-						if (checked[i][j] == 0)
-							continue;
-
-						if (checked[i][j] >= map[i][j]) {
-							map[i][j] = 0;
-
-							destroy = true;
-						}
-
-					}
-				}
-
-				wave++;
-
-				if (!destroy) {
-					wave--;
-					System.out.println("#" + T + " " + wave);
-					break;
-				}
 			}
 
+			System.out.println("#" + T + " " + wave);
 		}
-
 	}
 
-	public static boolean safe(int y, int x) {
+	public static void destroy() {
+		for (int i = 0; i < H; i++) {
+			for (int j = 0; j < W; j++) {
+				if (map[i][j] == 0)
+					continue;
+
+				if (map[i][j] <= cntMap[i][j]) {
+					map[i][j] = 0;
+					queue.offer(new Node(i, j));
+				}
+			}
+		}
+	}
+
+	public static boolean checked(int y, int x) {
 		if (x >= 0 && x < W && y >= 0 && y < H) {
 			return true;
 		} else
 			return false;
 	}
 
-	public static void checkSand(int y, int x) {
-
-		int cntSand = 0;
-
+	public static void cntSand(int y, int x) {
 		for (int i = 0; i < 8; i++) {
 			int ny = y + dy[i];
 			int nx = x + dx[i];
 
-			if (!safe(ny, nx))
+			if (!checked(ny, nx))
 				continue;
 
-			if (map[ny][nx] == 0) {
-				cntSand++;
-			}
+			if (map[ny][nx] == 0)
+				cnt++;
 		}
-
-		checked[y][x] = cntSand;
 	}
 
 	public static void printMap(int[][] m) {
-		for (int i = 0; i < m.length; i++) {
-			for (int j = 0; j < m[i].length; j++) {
+		for (int i = 0; i < H; i++) {
+			for (int j = 0; j < W; j++) {
 				System.out.print(m[i][j] + " ");
 			}
 			System.out.println();
 		}
-		System.out.println("===============================");
+		System.out.println("=================");
 	}
+
 }
