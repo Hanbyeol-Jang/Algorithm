@@ -1,3 +1,4 @@
+package fizzBuzz;
 import java.io.*;
 import java.math.*;
 import java.security.*;
@@ -19,7 +20,6 @@ class Result {
 	 */
 
 	public static void fizzBuzz(int n) {
-
 		for (int i = 1; i <= n; i++) {
 			if (i % 3 == 0) {
 
@@ -40,7 +40,7 @@ class Result {
 
 }
 
-public class Solution_fizzBuzz {
+public class Solution {
 	public static void main(String[] args) throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
