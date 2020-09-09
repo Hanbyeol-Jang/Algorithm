@@ -8,6 +8,7 @@ public class Solution_카카오프렌즈컬러링북 {
 		int n = 4;
 		int[][] picture = { { 1, 1, 1, 0 }, { 1, 2, 2, 0 }, { 1, 0, 0, 1 }, { 0, 0, 0, 1 }, { 0, 0, 0, 3 },
 				{ 0, 0, 0, 3 } };
+
 		System.out.println(solution(m, n, picture)[0] + " " + solution(m, n, picture)[1]);
 	}
 
