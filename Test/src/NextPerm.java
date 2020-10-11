@@ -4,12 +4,15 @@ public class NextPerm {
 
 	static int[] p = { 1, 2, 3, 4, 5 };
 
+	static int cnt;
 	public static void main(String[] args) {
 
+		
 		do {
 			System.out.println(Arrays.toString(p));
+			cnt++;
 		} while (np(p.length - 1));
-
+		System.out.println(cnt);
 	}
 
 	// 몇개 정렬?
