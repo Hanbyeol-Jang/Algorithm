@@ -1,0 +1,11 @@
+SELECT      B.ANIMAL_ID
+        ,   B.ANIMAL_TYPE
+        ,   B.NAME
+
+FROM        ANIMAL_INS  AS  A       --  보호소
+            RIGHT OUTER JOIN
+            ANIMAL_OUTS AS  B       --  입양
+            ON  A.ANIMAL_ID =   B.ANIMAL_ID
+            
+WHERE       A.SEX_UPON_INTAKE   LIKE    '%Intact%'  AND
+            B.SEX_UPON_OUTCOME  NOT LIKE   '%Intact%'
