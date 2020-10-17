@@ -1,0 +1,11 @@
+SELECT      B.ANIMAL_ID
+        ,   B.NAME
+
+FROM        ANIMAL_INS      AS  A           -- 보호소
+            RIGHT OUTER JOIN
+            ANIMAL_OUTS     AS  B           -- 입양
+            ON  A.ANIMAL_ID =   B.ANIMAL_ID
+            
+WHERE       A.NAME  IS NULL AND
+            A.ANIMAL_ID  IS NULL
+ORDER BY   ANIMAL_ID
