@@ -1,75 +1,84 @@
 package D4;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Solution_1219 {
 
-	static int N;
-	static int[][] map;
-	static boolean[] visited;
-	static int max;
+	public static int N;
+	public static int[] left;
+	public static int[] right;
+	public static boolean[] visited;
+	public static boolean flag;
 
-	static int A = 0;
-	static int B = 99;
-	static int fin;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T = 10;
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+		for (int test_case = 1; test_case <= T; test_case++) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
 
-		for (int T = 1; T <= 1; T++) {
-			int t = sc.nextInt();
-			N = sc.nextInt();
-			map = new int[N + 1][N + 1];
+			st.nextToken();
 
-			max = Integer.MIN_VALUE;
+			N = Integer.parseInt(st.nextToken());
 
-			for (int i = 0; i < N; i++) {
-				int source = sc.nextInt();
-				int dest = sc.nextInt();
+			left = new int[100];
+			right = new int[100];
 
-				if (dest != 99) {
-					map[source][dest] = 1;
-					map[dest][source] = 1;
+			Arrays.fill(left, -1);
+			Arrays.fill(right, -1);
 
-					if (max < source) {
-						max = source;
-					}
-					if (max < dest) {
-						max = dest;
-					}
-					continue;
+			st = new StringTokenizer(br.readLine());
+			while (st.hasMoreTokens()) {
+				int from = Integer.parseInt(st.nextToken());
+				int to = Integer.parseInt(st.nextToken());
+				System.out.println(from + " " + to);
+
+				if (left[from] == -1) {
+					left[from] = to;
 				} else {
-					fin = source;
+					right[from] = to;
 				}
-
 			}
 
-			visited = new boolean[max + 1];
-			System.out.println(max);
-			dfs(0);
+			visited = new boolean[100];
+			flag = false;
 
-			for (int i = 0; i <= max; i++) {
-				System.out.println(i + " " + visited[i] + " ");
+			go(0);
+
+			if (flag) {
+				System.out.println("#" + test_case + " 1");
+
+			} else {
+				System.out.println("#" + test_case + " 0");
 			}
-
-			printMap(map);
 		}
+
 	}
 
-	public static void dfs(int v) {
-		if (v == B) {
+	public static void go(int idx) {
+
+		if (idx == 99) {
+			flag = true;
 			return;
 		}
 
-		System.out.println("ddd");
-		for (int i = 0; i <= fin; i++) {
-			if (map[v][i] != 0 && !visited[v]) {
-				visited[v] = true;
-				dfs(i);
-				visited[v] = false;
+		if (!flag) {
+			if ((left[idx] != -1) && (visited[left[idx]] == false)) {
+				visited[left[idx]] = true;
+				go(left[idx]);
+				visited[left[idx]] = false;
+			}
+
+			if ((right[idx] != -1) && (visited[right[idx]] == false)) {
+				visited[right[idx]] = true;
+				go(right[idx]);
+				visited[right[idx]] = false;
 			}
 		}
-
 	}
 
 	public static void printMap(int[][] m) {
