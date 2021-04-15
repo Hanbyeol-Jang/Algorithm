@@ -39,14 +39,11 @@ public class Solution_이중우선순위큐 {
 				if (num[i] < 0) {
 					pq.poll();
 				} else {
-					System.out.println("!!");
-
 					int size = pq.size();
 					for (int j = 0; j < size; j++) {
 						if (!pq.isEmpty()) {
 							int temp = pq.poll();
 							pq2.offer(temp);
-							System.out.println("temp: " + temp);
 						}
 					}
 
@@ -60,13 +57,6 @@ public class Solution_이중우선순위큐 {
 					}
 				}
 			}
-
-			PriorityQueue<Integer> pqTemp = new PriorityQueue<>(pq);
-
-			while (!pqTemp.isEmpty()) {
-				System.out.println(pqTemp.poll());
-			}
-			System.out.println("===================");
 		}
 
 		int[] answer = new int[2];
@@ -82,8 +72,6 @@ public class Solution_이중우선순위큐 {
 			}
 			answer[0] = pq.poll();
 		}
-
-		System.out.println(answer[0] + " " + answer[1]);
 
 		return answer;
 	}
