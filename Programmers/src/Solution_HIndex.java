@@ -1,8 +1,8 @@
 import java.util.Arrays;
 
 public class Solution_HIndex {
-
 	public static void main(String[] args) {
+
 		int[] citations = { 3, 0, 6, 1, 5 };
 
 		System.out.println(solution(citations));
@@ -12,26 +12,28 @@ public class Solution_HIndex {
 
 		Arrays.sort(citations);
 
-		int hidx = 0;
-		for (int h = 1; h <= 10000; h++) {
-			int o = 0;
-			int x = 0;
+		int h = 0;
+		for (h = citations[citations.length - 1]; h >= 0; h--) {
 
-			for (int i = 0; i < citations.length; i++) {
-				if (citations[i] >= h) {
-					o++;
-				} else if (citations[i] <= h) {
-					x++;
+			int up = 0;
+			int dw = 0;
+
+			for (int j = 0; j < citations.length; j++) {
+
+				if (citations[j] >= h) {
+					up++;
+				} else if (citations[j] <= h) {
+					dw++;
 				}
 			}
 
-			if (o >= h && x <= h) {
-				hidx = h;
-//				System.out.println("hidx: " + h);
-//				System.out.println("h: " + h + " " + o + " " + x);
+			if (up >= h && dw <= h) {
+				break;
 			}
 		}
-		int answer = hidx;
+
+		int answer = h;
 		return answer;
 	}
+
 }
